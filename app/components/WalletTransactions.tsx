@@ -18,7 +18,7 @@ export default function WalletTransactions({ walletType, walletId }: WalletTrans
       setLoading(true);
       setError('');
       try {
-        const res = await fetch(`http://localhost:4000/api/wallet/wallet/${walletType}/${walletId}/transactions`);
+        const res = await fetch(`https://wallet-express-pg.vercel.app/api/wallet/wallet/${walletType}/${walletId}/transactions`);
         const data: Transaction[] | { error?: string } = await res.json();
 
         if (res.ok) {

@@ -19,7 +19,7 @@ export default function UserDashboard({ username }: UserDashboardProps) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://localhost:4000/api/wallet/${username}/wallets`);
+      const res = await fetch(`https://wallet-express-pg.vercel.app/api/wallet/${username}/wallets`);
       const data: Wallet[] | { error?: string } = await res.json();
 
       if (res.ok) {
@@ -48,6 +48,8 @@ export default function UserDashboard({ username }: UserDashboardProps) {
             setSelectedWallet(processedWallets[0] || null);
           }
         }
+
+        console.log(selectedWallet)
       } else {
         setError((data as { error?: string }).error || 'Failed to fetch wallets.');
       }
@@ -111,6 +113,7 @@ export default function UserDashboard({ username }: UserDashboardProps) {
         {selectedWallet && (
           <>
             <WalletActions
+              userId={selectedWallet.userId}
               walletType={selectedWallet.type}
               walletId={selectedWallet.id}
               currentBalance={selectedWallet.balance}

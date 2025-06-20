@@ -1,8 +1,12 @@
 import { redirect } from 'next/navigation';
 import UserDashboard from './components/UserDashboard';
 
-export default function Home() {
-  const username: string = "user_table_test"; 
+export default async function Home() {
+  const username: string = "user_table_test";
+
+  const user = await fetch(`https://wallet-express-pg.vercel.app/api/wallet/${username}/wallets`);
+
+  const dataUser = await user.json();
 
   if (!username) {
     redirect('/login');
@@ -11,7 +15,7 @@ export default function Home() {
 
   return (
     <div className=''>
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Welcome, {username}!</h2>
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">Welcome, {dataUser.name}!</h2>
       <UserDashboard username={username} />
     </div>
   );
