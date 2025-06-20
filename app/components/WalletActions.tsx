@@ -8,10 +8,9 @@ interface WalletActionsProps {
   walletId: Wallet['id'];
   currentBalance: number;
   onUpdateBalance: (newBalance: number) => void;
-  userId: string;
 }
 
-export default function WalletActions({ walletType, walletId, currentBalance, onUpdateBalance, userId }: WalletActionsProps) {
+export default function WalletActions({ walletType, walletId, currentBalance, onUpdateBalance }: WalletActionsProps) {
   const [depositAmount, setDepositAmount] = useState<string>('');
   const [transferAmount, setTransferAmount] = useState<string>('');
   const [receiverWalletType, setReceiverWalletType] = useState<Wallet['type']>('dodi');
@@ -36,7 +35,7 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const res = await fetch(`https://wallet-express-pg.vercel.app/api/wallet/wallet/${walletType}/deposit`, {
+      const res = await fetch(`https://localhost:3000/api/wallet/wallet/${walletType}/deposit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletId, amount }),
@@ -76,7 +75,7 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
     }
 
     try {
-      const res = await fetch('https://wallet-express-pg.vercel.app/api/wallet/transfer', {
+      const res = await fetch('https://localhost:3000/api/wallet/transfer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -106,7 +105,7 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
   return (
     <div className="flex flex-col flex-1 h-full bg-white p-6 rounded-lg shadow-md mb-6">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">Actions for {walletType.toUpperCase()} Wallet</h3>
-      <p>user id: {userId}</p>
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">id: {walletId}</h3>
       <p className="text-lg text-gray-700 mb-4">Current Balance: ${currentBalance.toFixed(2)}</p>
 
       {message && <p className="text-green-600 mb-4">{message}</p>}
@@ -184,9 +183,10 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          disabled={isDepositing}
         >
-          Transfer
+          {isDepositing ? 'Transferring...' : 'Transfer'}
         </button>
       </form>
     </div>

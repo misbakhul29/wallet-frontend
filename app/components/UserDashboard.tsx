@@ -113,7 +113,6 @@ export default function UserDashboard({ username }: UserDashboardProps) {
         {selectedWallet && (
           <>
             <WalletActions
-              userId={selectedWallet.userId}
               walletType={selectedWallet.type}
               walletId={selectedWallet.id}
               currentBalance={selectedWallet.balance}
