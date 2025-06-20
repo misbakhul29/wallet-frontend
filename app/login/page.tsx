@@ -22,7 +22,7 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const res = await fetch("https://localhost:3000/api/wallet/login", {
+      const res = await fetch("https://wallet-express-pg.vercel.app/api/wallet/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

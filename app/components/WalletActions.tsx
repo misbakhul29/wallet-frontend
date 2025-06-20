@@ -35,7 +35,7 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const res = await fetch(`https://localhost:3000/api/wallet/wallet/${walletType}/deposit`, {
+      const res = await fetch(`https://wallet-express-pg.vercel.app/api/wallet/wallet/${walletType}/deposit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletId, amount }),
@@ -75,7 +75,7 @@ export default function WalletActions({ walletType, walletId, currentBalance, on
     }
 
     try {
-      const res = await fetch('https://localhost:3000/api/wallet/transfer', {
+      const res = await fetch('https://wallet-express-pg.vercel.app/api/wallet/transfer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
